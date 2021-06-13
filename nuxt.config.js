@@ -41,7 +41,18 @@ export default {
   content: {
     // Options
   },
-
+  generate: {
+    routes: function() {
+      const fs = require("fs");
+      const path = require("path");
+      return fs.readdirSync("./content/blog").map(file => {
+        return {
+          route: `/blog/${path.parse(file).name}`, // Return the slug
+          payload: require(`./content/blog/${file}`)
+        };
+      });
+    }
+  },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ["~/assets/variables.scss"],
